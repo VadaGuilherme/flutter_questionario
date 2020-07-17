@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_perguntas/contarPerguntas.dart';
 import 'package:projeto_perguntas/questao.dart';
 import 'package:projeto_perguntas/resposta.dart';
 
@@ -26,6 +27,7 @@ class Questionario extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        ContarPerguntas(perguntas.length, perguntaSelecionada + 1),
         Questao(perguntas[perguntaSelecionada]['texto']),
         ...respostas.map((resp) {
           return Resposta(
