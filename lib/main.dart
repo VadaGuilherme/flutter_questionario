@@ -1,42 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:projeto_perguntas/resposta.dart';
-import './questao.dart';
+import 'package:projeto_perguntas/questionario.dart';
+import 'package:projeto_perguntas/resultado.dart';
 
 main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  final _perguntas = const [
+    {
+      'texto': 'Qual eh a sua cor favorita ?',
+      'respostas': ['Preto', 'Vermelho', 'Verde', 'Branco'],
+    },
+    {
+      'texto': 'Qual eh o seu animal favorito ?',
+      'respostas': ['Cachorro', 'Gato', 'Tartaruga', 'Coelho'],
+    },
+    {
+      'texto': 'Qual seu irmao favorito ?',
+      'respostas': ['Maria', 'Joao', 'Andre', 'Leo'],
+    }
+  ];
+
+  bool get temPerguntaSelecionada {
+    return _perguntaSelecionada < _perguntas.length;
+  }
 
   void _responder() {
-    setState(() {
-      _perguntaSelecionada++;
-    });
-
-    print(_perguntaSelecionada);
+    if (temPerguntaSelecionada) {
+      setState(() {
+        _perguntaSelecionada++;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final perguntas = [
-      'Qual eh a sua cor favorita ?',
-      'Qual eh o seu animal favorito ?',
-    ];
-
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Perguntas'),
-        ),
-        body: Column(
-          children: [
-            Questao(perguntas[_perguntaSelecionada]),
-            Resposta('Resposta 1'),
-            Resposta('Resposta 2'),
-            Resposta('Resposta 3'),
-          ],
-        ),
-      ),
+          appBar: AppBar(
+            title: Text('Perguntas'),
+          ),
+          body: temPerguntaSelecionada
+              ? Questionario(
+                  perguntas: _perguntas,
+                  perguntaSelecionada: _perguntaSelecionada,
+                  quandoResponder: _responder,
+                )
+              : Resultado()),
     );
   }
 }
